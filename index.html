@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html;" />
+    <meta name="description" content="ToDo MJX Neko">
+    <meta name="keywords" content="HTML, CSS, JavaScript, ToDo,MJX">
+    <title>ToDo ~</title>
+    <link href="css/main.css" rel="stylesheet">
+    <link href="css/preload.css" rel="stylesheet">
+    <link href="css/modal.css" rel="stylesheet">
+    <link href="vendor/fontawesome-5.15.3/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="loader-wrapper">
+        <div id="loader"></div>
+    </div>
+    <!--js卡顿则移除-->
+    <div id="stars"></div>
+    <!---->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2>MODIFY</h2>
+                <hr>
+            </header>
+            <div class="modal-body">
+                <input id="modify_id" type="hidden" style="display: none;">
+                <textarea id="modify_content" autofocus required></textarea>
+            </div>
+            <footer class="modal-footer">
+                <button id="sure">OK</button>
+                <button id="cancel">CANCEL</button>
+            </footer>
+        </div>
+    </div>
+    <div class="content">
+        <div id="todo">
+            <h1>ToDO</h1>
+            <div class="todo_input">
+                <input id="add_input" type="text" placeholder="Add To Do ~" value="" autofocus required>
+                <button id="add"><i class="fas fa-notes-medical"></i></button>
+            </div>
+            <div id="filter_btn">
+                <div id="All_btn" class="filter all active">ALL</div>
+                <div id="ToDo_btn" class="filter todo">ToDo</div>
+                <div id="Done_btn" class="filter done">Done</div>
+                <div id="Star_btn" class="filter key-star">Star</div>
+            </div>
+            <div id="todo_items"></div>
+            <div>
+                <button id="delete_All">Delete All</button>
+                <button id="done_All">Done All</button>
+                <button id="notdone_All">Not Done All</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="js/tool.js"></script>
+<script src="js/toastr.js"></script>
+<script src="js/modal.js"></script>
+<script src="js/localStore.js"></script>
+<script src="js/star_bg.js"></script>
+<script src="js/todo_main.js"></script>
+<script src="js/preload.js"></script>
+
+</html>

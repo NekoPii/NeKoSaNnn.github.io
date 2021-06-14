@@ -18,6 +18,8 @@ window.onload = function() {
         initMyToDo();
     });
 
+
+
     $("#All_btn").addEventListener("click", function() {
         window.location.href = "#ALL"
         vt.success("Change To All ~", {
@@ -162,11 +164,16 @@ function initMyToDo() {
         now_div.appendChild(now_del_btn)
         now_div.appendChild(now_star_btn)
 
-        $("#todo_items").appendChild(now_div)
-
         updateStar(now_div, hash, model.data.todo_items[key].star)
         updateDone(now_div, model.data.todo_items[key].done)
         updateDateTime(now_div, model.data.todo_items[key].datetime, model.data.todo_items[key].isModify)
+
+        now_div.classList.remove("hide")
+        now_div.classList.remove("show")
+        now_div.classList.add("show")
+
+        $("#todo_items").appendChild(now_div)
+
     }
 }
 
@@ -234,6 +241,9 @@ function addToDo() {
         let now_div = $CRE("div")
         now_div.setAttribute("id", now_item_id)
         now_div.classList.add("item")
+        now_div.classList.remove("hide")
+        now_div.classList.remove("show")
+        now_div.classList.add("show")
         if (item.done) {
             now_div.classList.remove("pink")
             now_div.classList.add("blue")
@@ -278,21 +288,29 @@ function updateMyToDo(hash) {
         if (item) {
             let item_id = item.getAttribute("id")
             let now_item = model.data.todo_items[item_id]
-            if (hash === "ALL" || (hash === "Done" && now_item.done) || (hash === "ToDo" && (!now_item.done)) || (hash === "Star" && now_item.star)) {
-                item.classList.remove("hide")
-                item.style.display = "flex"
-                item.querySelector(".todo_text").innerHTML = now_item.content
-                updateDone(item, now_item.done)
-                updateDateTime(item, now_item.datetime, now_item.isModify)
-            } else {
-                item.classList.add("hide")
-                item.querySelector(".todo_text").innerHTML = now_item.content
-                updateDone(item, now_item.done)
-                updateDateTime(item, now_item.datetime, now_item.isModify)
-                setTimeout(function() {
-                    item.style.display = "none"
-                }, 10)
+            if (now_item) {
+                if (hash === "ALL" || (hash === "Done" && now_item.done) || (hash === "ToDo" && (!now_item.done)) || (hash === "Star" && now_item.star)) {
+                    item.classList.remove("hide")
+                    item.classList.remove("show")
+                    setTimeout(function() {
+                        item.classList.add("show")
+                    }, 10)
+                    item.style.display = "flex"
+                    item.querySelector(".todo_text").innerHTML = now_item.content
+                    updateDone(item, now_item.done)
+                    updateDateTime(item, now_item.datetime, now_item.isModify)
+                } else {
+                    item.classList.remove("hide")
+                    item.classList.remove("show")
+                    item.classList.add("hide")
+                    item.querySelector(".todo_text").innerHTML = now_item.content
+                    updateDone(item, now_item.done)
+                    updateDateTime(item, now_item.datetime, now_item.isModify)
+                    setTimeout(function() {
+                        item.style.display = "none"
+                    }, 10)
 
+                }
             }
         }
     }
@@ -370,6 +388,8 @@ function setItemStyle(now_item, type, hash) {
                 now_item.classList.add("blue")
             }, 400)
         } else if (hash === "ToDo") {
+            now_item.classList.remove("hide")
+            now_item.classList.remove("show")
             now_item.classList.add("hide")
             setTimeout(function() {
                 now_item.style.display = "none"
@@ -387,6 +407,8 @@ function setItemStyle(now_item, type, hash) {
     } else
     if (type === "ToDo") { //待完成样式
         if (hash === "Done") {
+            now_item.classList.remove("hide")
+            now_item.classList.remove("show")
             now_item.classList.add("hide")
             setTimeout(function() {
                 now_item.style.display = "none"
@@ -407,6 +429,8 @@ function setItemStyle(now_item, type, hash) {
         now_check_i.classList.add("far")
         now_check_i.classList.add("fa-square")
     } else if (type === "Delete") {
+        now_item.classList.remove("hide")
+        now_item.classList.remove("show")
         now_item.classList.add("hide")
         setTimeout(function() {
             $("#todo_items").removeChild(now_item)
@@ -416,16 +440,17 @@ function setItemStyle(now_item, type, hash) {
 }
 
 
-function deleteAll(event, type) {
+function deleteAll() {
+    let hash = window.location.hash.split("#")[1]
     for (let key in model.data.todo_items) {
         let now_item = model.data.todo_items[key]
-        if (type === "ALL" || (type === "Done" && now_item.done) || (type === "ToDo" && !now_item.done)) {
-            setItemStyle(now_item, "Delete", "")
+        if (hash === "ALL" || (hash === "Done" && now_item.done) || (hash === "ToDo" && !now_item.done) || (hash === "Star" && now_item.star)) {
             delete model.data.todo_items[key]
+            model.flush()
+            setItemStyle($("#" + key), "Delete", hash)
         }
     }
-    model.flush()
-    updateMyToDo(type)
+    updateMyToDo(hash)
 }
 
 function doneAll() {
@@ -490,6 +515,10 @@ function filter(event, type) {
     updateMyToDo(type)
 }
 
+function search() {
+
+}
+
 $("#add").addEventListener("click", addToDo)
 
 
@@ -497,5 +526,22 @@ $("#add_input").addEventListener("keydown", function(event) {
     var e = event || window.event;
     if (e && e.keyCode == 13) {
         addToDo()
+    }
+})
+
+$('.btn-triger').addEventListener("click", function() {
+    let float_btn_group = this.parentNode
+    if (float_btn_group.classList.contains("open")) {
+        float_btn_group.classList.remove("open")
+        this.querySelector(".fa-bars").style.display = ""
+        this.querySelector(".fa-reply-all").style.display = "none"
+        this.setAttribute("title", "Menu")
+
+    } else {
+        float_btn_group.classList.add("open")
+        this.querySelector(".fa-bars").style.display = "none"
+        this.querySelector(".fa-reply-all").style.display = ""
+        this.setAttribute("title", "Back")
+
     }
 })

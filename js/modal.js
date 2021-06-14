@@ -7,8 +7,7 @@ sure_btn.addEventListener("click", function() {
     let now_modify_input = $("#modify_content").value,
         now_modify_id = $("#modify_id").value,
         now_modal = $("#modal"),
-        now_datetime = new Date(),
-        hash = window.location.hash.split("#")[1]
+        now_datetime = new Date()
     if (now_modify_input.length >= 1) {
         model.data.todo_items[now_modify_id].content = now_modify_input
         model.data.todo_items[now_modify_id].datetime = now_datetime.format("yyyy-MM-dd hh:mm:ss")

@@ -40,6 +40,10 @@ s {
     height: 0.05rem;
 }
 
+scroll-container {
+    scroll-behavior: smooth;
+}
+
 ::-webkit-scrollbar-thumb {
     /*滚动条里面小方块*/
     border-radius: 1.5rem;
@@ -197,11 +201,10 @@ h1 {
     position: relative;
     padding-top: 5rem;
     margin: auto;
-    width: 60vw;
+    width: 70vw;
 }
 
 #todo_items {
-    max-height: 900px;
     overflow-y: scroll;
     filter: drop-shadow(0px 30px 50px rgba(0, 0, 0, 0.3));
 }
@@ -219,13 +222,24 @@ h1 {
     border-radius: 0.6rem;
     border: 1px solid rgba(255, 255, 255, 0.125);
     transition: 0.3s ease-in-out;
-    animation: fade-in 0.3s;
 }
 
 #todo_items .item:hover {
     color: rgba(255, 255, 255, 0.9);
     background: rgba(0, 0, 0, 0.275);
     box-shadow: 0 0.75rem 0.35rem 0 rgb(0 0 0 / 10%);
+}
+
+@media screen and (max-width:600px) {
+    #todo {
+        width: 95%;
+    }
+}
+
+@media screen and (max-width:700px) and (min-width:601px) {
+    #todo {
+        width: 85%;
+    }
 }
 
 @keyframes fade-in {
@@ -301,8 +315,12 @@ h1 {
     opacity: 1;
 }*/
 
-#todo_items .hide {
+.hide {
     animation: fade-out 0.5s;
+}
+
+.show {
+    animation: fade-in 0.5s;
 }
 
 #filter_btn {

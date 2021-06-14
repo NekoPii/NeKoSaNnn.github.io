@@ -10,7 +10,9 @@
     <link href="css/main.css" rel="stylesheet">
     <link href="css/preload.css" rel="stylesheet">
     <link href="css/modal.css" rel="stylesheet">
+    <link href="css/popbtn.css" rel="stylesheet">
     <link href="vendor/fontawesome-5.15.3/css/all.min.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -50,10 +52,39 @@
                 <div id="Star_btn" class="filter key-star">Star</div>
             </div>
             <div id="todo_items"></div>
-            <div>
-                <button id="delete_All">Delete All</button>
-                <button id="done_All">Done All</button>
-                <button id="notdone_All">Not Done All</button>
+        </div>
+    </div>
+
+    <div id="todo-left-pop">
+        <div class="container left-popbtn">
+            <div class="float-btn-group">
+                <button id="open_model" class="btn-float btn-triger float-blue" type="button" title="Back">
+                    <i class="fas fa-bars"></i>
+                    <i class="fas fa-reply-all" style="display: none;"></i>
+                </button>
+                <div class="btn-list">
+                    <button id="search" class="btn-float float-blue" type="button" title="Search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button id="delete_All" class="btn-float float-red" type="button" title="Delete All">
+                        <i class="fas fa-calendar-times"></i>
+                    </button>
+                    <button id="done_All" class="btn-float float-aqua" type="button" title="Done All">
+                        <i class="fas fa-calendar-check"></i>
+                    </button>
+                    <button id="notdone_All" class="btn-float float-yellow" type="button" title="Cancel Done All">
+                        <i class="fas fa-calendar-minus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="todo-right-pop">
+        <div class="container right-popbtn">
+            <div class="float-btn-group">
+                <button id="clear_Done" class="btn-float float-yellow" type="button" title="Clear Done">
+                    <i class="fas fa-broom"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -64,6 +95,7 @@
 <script src="js/modal.js"></script>
 <script src="js/localStore.js"></script>
 <script src="js/star_bg.js"></script>
+
 <script src="js/todo_main.js"></script>
 <script src="js/preload.js"></script>
 

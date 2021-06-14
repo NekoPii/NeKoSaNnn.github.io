@@ -8,16 +8,66 @@ window.onload = function() {
         callback: undefined
     });
 
-    let now_type = window.location.hash.split("#")[1]
-    if (!now_type) {
-        now_type = "ALL"
-    }
-
     model.init(function() {
         window.location.href = "#ALL"
         initMyToDo();
     });
 
+    $("#add").addEventListener("click", addToDo)
+
+
+    $("#add_input").addEventListener("keydown", function(event) {
+        var e = event || window.event;
+        if (e && e.keyCode == 13) {
+            addToDo()
+        }
+    })
+
+    $("#search").addEventListener("click", function() {
+        Search()
+    })
+
+    $("#search_input").addEventListener("keydown", function(event) {
+        var e = event || window.event;
+        if (e && e.keyCode == 13) {
+            Search()
+        }
+    })
+
+    /*初始化搜索栏与添加栏状态切换*/
+    if ($("#search_or_add").value === "search") {
+        $("#search_input").style.display = "none"
+        $("#search").style.display = "none"
+        $("#add_input").style.display = ""
+        $("#add").style.display = ""
+        $("#search_text").classList.remove("show")
+        $("#search_text").classList.add("hide")
+        $("#search_text").style.visibility = "hidden"
+    } else if ($("#search_or_add").value === "add") {
+        $("#add_input").style.display = "none"
+        $("#add").style.display = "none"
+        $("#search_input").style.display = ""
+        $("#search").style.display = ""
+        $("#search_text").classList.remove("hide")
+        $("#search_text").classList.add("show")
+        $("#search_text").style.visibility = "visible"
+    }
+
+    $('.btn-triger').addEventListener("click", function() {
+        let float_btn_group = this.parentNode
+        if (float_btn_group.classList.contains("open")) {
+            float_btn_group.classList.remove("open")
+            this.querySelector(".fa-bars").style.display = ""
+            this.querySelector(".fa-reply-all").style.display = "none"
+            this.setAttribute("title", "Menu")
+
+        } else {
+            float_btn_group.classList.add("open")
+            this.querySelector(".fa-bars").style.display = "none"
+            this.querySelector(".fa-reply-all").style.display = ""
+            this.setAttribute("title", "Back")
+        }
+    })
 
 
     $("#All_btn").addEventListener("click", function() {
@@ -87,7 +137,7 @@ window.onload = function() {
 
     $("#delete_All").addEventListener("click", function() {
 
-        deleteAll(event, now_type)
+        deleteAll()
     })
     $("#done_All").addEventListener("click", function() {
         doneAll()
@@ -95,16 +145,24 @@ window.onload = function() {
     $("#notdone_All").addEventListener("click", function() {
         notdoneAll()
     })
+    $("#clear_Done").addEventListener("click", function() {
+        clearDone()
+    })
+    $("#search_or_add").addEventListener("click", function() {
+        changeModel() //Add or Search
+    })
 }
 
 function initMyToDo() {
-    var todo_cnt = 0;
-    var done_cnt = 0;
-    let hash = window.location.hash.split("#")[1]
+    let todo_cnt = 0,
+        done_cnt = 0,
+        star_cnt = 0,
+        hash = window.location.hash.split("#")[1]
     for (let key in model.data.todo_items) {
         let item = model.data.todo_items[key]
         if (item.done) done_cnt++;
-        else todo_cnt++;
+        else if (!item.done) todo_cnt++;
+        if (item.star) star_cnt++;
 
         let now_check_btn = $CRE("div"),
             now_check_i = $CRE("i")
@@ -175,6 +233,18 @@ function initMyToDo() {
         $("#todo_items").appendChild(now_div)
 
     }
+    $("#done_cnt").innerHTML = done_cnt
+    $("#todo_cnt").innerHTML = todo_cnt
+    $("#star_cnt").innerHTML = star_cnt
+    if (JSON.stringify(model.data.todo_items) == "{}") {
+        $("#filter_btn").classList.remove("show")
+        $("#filter_btn").classList.add("hide")
+        $("#filter_btn").style.visibility = "hidden"
+    } else {
+        $("#filter_btn").classList.remove("hide")
+        $("#filter_btn").classList.add("show")
+        $("#filter_btn").style.visibility = "visible"
+    }
 }
 
 function addToDo() {
@@ -185,14 +255,35 @@ function addToDo() {
         let timestamp = new Date().getTime(),
             now_item_id = "item-" + timestamp,
             datetime = new Date()
-        model.data.todo_items[now_item_id] = {
-            content: input_content,
-            datetime: datetime.format("yyyy-MM-dd hh:mm:ss"),
-            done: false,
-            star: false,
-            isModify: false,
+        if (hash === "Done") {
+            model.data.todo_items[now_item_id] = {
+                content: input_content,
+                datetime: datetime.format("yyyy-MM-dd hh:mm:ss"),
+                done: true,
+                star: false,
+                isModify: false,
+            }
+            model.flush()
+        } else if (hash === "Star") {
+            model.data.todo_items[now_item_id] = {
+                content: input_content,
+                datetime: datetime.format("yyyy-MM-dd hh:mm:ss"),
+                done: false,
+                star: true,
+                isModify: false,
+            }
+            model.flush()
+        } else {
+            model.data.todo_items[now_item_id] = {
+                content: input_content,
+                datetime: datetime.format("yyyy-MM-dd hh:mm:ss"),
+                done: false,
+                star: false,
+                isModify: false,
+            }
+            model.flush()
         }
-        model.flush()
+
         let item = model.data.todo_items[now_item_id]
 
         let now_check_btn = $CRE("div"),
@@ -258,8 +349,16 @@ function addToDo() {
 
         $("#todo_items").appendChild(now_div)
 
-        updateStar(now_div, hash, false)
-        updateDone(now_div, false)
+        if (hash === "Done") {
+            updateStar(now_div, hash, false)
+            updateDone(now_div, true)
+        } else if (hash === "Star") {
+            updateStar(now_div, hash, true)
+            updateDone(now_div, false)
+        } else {
+            updateStar(now_div, hash, false)
+            updateDone(now_div, false)
+        }
 
         $("#add_input").value = ""
         vt.success("Add Note ~", {
@@ -270,6 +369,7 @@ function addToDo() {
             focusable: true,
             callback: undefined
         })
+        updateMyToDo(hash)
     } else {
         vt.error("Input Can't be Empty ~", {
             title: undefined,
@@ -280,10 +380,18 @@ function addToDo() {
             callback: undefined
         })
     }
+    if ($("#filter_btn").classList.contains("hide")) {
+        $("#filter_btn").classList.remove("hide")
+        $("#filter_btn").classList.add("show")
+        $("#filter_btn").style.visibility = "visible"
+    }
 }
 
 function updateMyToDo(hash) {
-    var todo_items = $All(".item")
+    let todo_items = $All(".item"),
+        todo_cnt = 0,
+        done_cnt = 0,
+        star_cnt = 0
     for (let item of todo_items) {
         if (item) {
             let item_id = item.getAttribute("id")
@@ -309,10 +417,29 @@ function updateMyToDo(hash) {
                     setTimeout(function() {
                         item.style.display = "none"
                     }, 10)
-
+                }
+                if (now_item.done) {
+                    done_cnt++
+                } else if (!now_item.done) {
+                    todo_cnt++
+                }
+                if (now_item.star) {
+                    star_cnt++
                 }
             }
         }
+    }
+    $("#done_cnt").innerHTML = done_cnt
+    $("#todo_cnt").innerHTML = todo_cnt
+    $("#star_cnt").innerHTML = star_cnt
+    if (JSON.stringify(model.data.todo_items) == "{}") {
+        $("#filter_btn").classList.remove("show")
+        $("#filter_btn").classList.add("hide")
+        $("#filter_btn").style.visibility = "hidden"
+    } else {
+        $("#filter_btn").classList.remove("hide")
+        $("#filter_btn").classList.add("show")
+        $("#filter_btn").style.visibility = "visible"
     }
 }
 
@@ -327,9 +454,19 @@ function updateMyOneToDo(item) { //为Modify服务
 function deleteToDo(event, now) {
     let now_item = now.parentNode
     let now_id = now_item.getAttribute("id")
+    if (model.data.todo_items[now_id].done) {
+        $("#done_cnt").innerHTML = (parseInt($("#done_cnt").innerHTML) - 1)
+    } else if (!model.data.todo_items[now_id].done) {
+        $("#todo_cnt").innerHTML = (parseInt($("#todo_cnt").innerHTML) - 1)
+    }
     delete model.data.todo_items[now_id]
     model.flush()
     setItemStyle(now_item, "Delete", "")
+    if (JSON.stringify(model.data.todo_items) == "{}") {
+        $("#filter_btn").classList.remove("show")
+        $("#filter_btn").classList.add("hide")
+        $("#filter_btn").style.visibility = "hidden"
+    }
 }
 
 function starToDo(event, now) {
@@ -338,25 +475,31 @@ function starToDo(event, now) {
         hash = window.location.hash.split("#")[1]
     model.data.todo_items[now_id].star = !model.data.todo_items[now_id].star
     model.flush()
+    if (model.data.todo_items[now_id].star) {
+        $("#star_cnt").innerHTML = parseInt($("#star_cnt").innerHTML) + 1
+    } else if (!model.data.todo_items[now_id].star) {
+        $("#star_cnt").innerHTML = parseInt($("#star_cnt").innerHTML) - 1
+    }
     updateStar(now_item, hash, model.data.todo_items[now_id].star)
 }
 
 function updateStar(now_item, hash, isStar) { //更新Star样式表
     let now_start_btn = now_item.querySelector(".star_btn"),
         now_star_i = now_start_btn.querySelector("i")
-    if (isStar) { //前置状态已收藏，进行取消收藏操作
+    if (isStar) { //变更成为已收藏
         now_star_i.classList.remove("far")
         now_star_i.classList.add("fas")
         now_star_i.classList.add("Star")
         now_start_btn.title = "Cancel"
 
-    } else { //前置状态未收藏，进行收藏操作
+    } else { //变更成为未收藏
         now_star_i.classList.remove("fas")
         now_star_i.classList.remove("Star")
         now_star_i.classList.add("far")
         now_start_btn.title = "Star"
     }
-    if (hash === "Star") {
+    if (hash === "Star" && !isStar) {
+        now_item.classList.remove("show")
         now_item.classList.add("hide")
         setTimeout(function() {
             now_item.style.display = "none"
@@ -369,6 +512,13 @@ function doneToDo(event, now) {
         now_id = now_item.getAttribute("id")
     model.data.todo_items[now_id].done = !model.data.todo_items[now_id].done
     model.flush()
+    if (model.data.todo_items[now_id].done) {
+        $("#done_cnt").innerHTML = (parseInt($("#done_cnt").innerHTML) + 1)
+        $("#todo_cnt").innerHTML = (parseInt($("#todo_cnt").innerHTML) - 1)
+    } else if (!model.data.todo_items[now_id].done) {
+        $("#done_cnt").innerHTML = (parseInt($("#done_cnt").innerHTML) - 1)
+        $("#todo_cnt").innerHTML = (parseInt($("#todo_cnt").innerHTML) + 1)
+    }
     updateDone(now_item, model.data.todo_items[now_id].done)
 }
 
@@ -441,42 +591,141 @@ function setItemStyle(now_item, type, hash) {
 
 
 function deleteAll() {
-    let hash = window.location.hash.split("#")[1]
+    let hash = window.location.hash.split("#")[1],
+        cnt = 0
     for (let key in model.data.todo_items) {
-        let now_item = model.data.todo_items[key]
-        if (hash === "ALL" || (hash === "Done" && now_item.done) || (hash === "ToDo" && !now_item.done) || (hash === "Star" && now_item.star)) {
+        let now_item_div = $("#" + key)
+        if (now_item_div.classList.contains("show")) {
             delete model.data.todo_items[key]
             model.flush()
             setItemStyle($("#" + key), "Delete", hash)
+            cnt++
         }
     }
-    updateMyToDo(hash)
+    filter(event, hash)
+    if (cnt == 0) {
+        vt.info("Nothing Delete ~", {
+            title: undefined,
+            position: "top-right",
+            duration: 1500,
+            closable: true,
+            focusable: true,
+            callback: undefined
+        });
+    } else {
+        vt.success("Delete " + cnt + " item(s) ~", {
+            title: undefined,
+            position: "top-right",
+            duration: 1500,
+            closable: true,
+            focusable: true,
+            callback: undefined
+        });
+    }
 }
 
 function doneAll() {
+    let hash = window.location.hash.split("#")[1],
+        cnt = 0
     for (let key in model.data.todo_items) {
-        if (model.data.todo_items[key].done) {
-            continue
+        let now_item = model.data.todo_items[key],
+            now_item_div = $("#" + key)
+        if (!now_item.done && now_item_div.classList.contains("show")) {
+            model.data.todo_items[key].done = true
+            updateDone($("#" + key), true)
+            cnt++
         }
-        model.data.todo_items[key].done = true
-        updateDone($("#" + key), true)
     }
-    model.flush()
+    filter(event, hash)
+    if (cnt == 0) {
+        vt.info("Nothing Done ~", {
+            title: undefined,
+            position: "top-right",
+            duration: 1500,
+            closable: true,
+            focusable: true,
+            callback: undefined
+        });
+    } else {
+        vt.success("Done " + cnt + " item(s) ~", {
+            title: undefined,
+            position: "top-right",
+            duration: 1500,
+            closable: true,
+            focusable: true,
+            callback: undefined
+        });
+    }
 }
 
 function notdoneAll() {
+    let hash = window.location.hash.split("#")[1],
+        cnt = 0
     for (let key in model.data.todo_items) {
-        if (!model.data.todo_items[key].done) {
-            continue
+        let now_item = model.data.todo_items[key],
+            now_item_div = $("#" + key)
+        if (now_item.done && now_item_div.classList.contains("show")) {
+            model.data.todo_items[key].done = false
+            updateDone($("#" + key), false)
+            cnt++
         }
-        model.data.todo_items[key].done = false
-        updateDone($("#" + key), false)
     }
-    model.flush()
+    filter(event, hash)
+    if (cnt == 0) {
+        vt.info("Nothing Not Done ~", {
+            title: undefined,
+            position: "top-right",
+            duration: 1500,
+            closable: true,
+            focusable: true,
+            callback: undefined
+        });
+    } else {
+        vt.success("Not Done " + cnt + " item(s) ~", {
+            title: undefined,
+            position: "top-right",
+            duration: 1500,
+            closable: true,
+            focusable: true,
+            callback: undefined
+        });
+    }
 }
 
-function clearAll() {
-    $("#todo_items").innerHTML = ""
+function clearDone() {
+    let hash = window.location.hash.split("#")[1],
+        cnt = 0
+    for (let key in model.data.todo_items) {
+        let now_item = model.data.todo_items[key],
+            now_item_div = $("#" + key)
+        if (now_item.done && now_item_div.classList.contains("show")) {
+            delete model.data.todo_items[key]
+            model.flush()
+            setItemStyle(now_item_div, "Delete", hash)
+            cnt++
+        }
+    }
+    filter(event, hash)
+    if (cnt == 0) {
+        vt.info("Nothing Clear ~", {
+            title: undefined,
+            position: "top-right",
+            duration: 1500,
+            closable: true,
+            focusable: true,
+            callback: undefined
+        });
+    } else {
+        vt.success("Clear " + cnt + " Done ~", {
+            title: undefined,
+            position: "top-right",
+            duration: 1500,
+            closable: true,
+            focusable: true,
+            callback: undefined
+        });
+    }
+
 }
 
 function updateDone(now_item, isDone) {
@@ -511,37 +760,101 @@ function updateDateTime(now_item, datetime, isModify) {
     }
 }
 
-function filter(event, type) {
-    updateMyToDo(type)
+function filter(event, hash) {
+    if ($("#search_or_add").value === "search") {
+        updateMyToDo(hash)
+    } else if ($("#search_or_add").value === "add") {
+        updateMySearch(hash)
+    }
 }
 
-function search() {
-
+function changeModel() {
+    let now_i = $("#search_or_add").querySelector("i"),
+        hash = window.location.hash.split("#")[1]
+    if ($("#search_or_add").value === "search") { //切换到Search
+        $("#search_text").classList.remove("hide")
+        $("#search_text").classList.add("show")
+        $("#search_text").style.visibility = "visible"
+        $("#search_or_add").value = "add"
+        now_i.classList.remove("fa-search")
+        now_i.classList.add("fa-calendar-plus")
+        $("#add_input").value = ""
+        $("#search_input").value = ""
+        $("#add_input").style.display = "none"
+        $("#add").style.display = "none"
+        $("#search_input").style.display = ""
+        $("#search").style.display = ""
+    } else if ($("#search_or_add").value === "add") { //切换到Add
+        $("#search_text").classList.remove("show")
+        $("#search_text").classList.add("hide")
+        $("#search_text").style.visibility = "hidden"
+        $("#search_or_add").value = "search"
+        now_i.classList.remove("fa-calendar-plus")
+        now_i.classList.add("fa-search")
+        $("#add_input").value = ""
+        $("#search_input").value = ""
+        $("#search_input").style.display = "none"
+        $("#search").style.display = "none"
+        $("#add_input").style.display = ""
+        $("#add").style.display = ""
+    }
+    filter(event, hash)
 }
 
-$("#add").addEventListener("click", addToDo)
+function updateMySearch(hash) {
+    let search_content = $("#search_content").value,
+        todo_items = $All(".item"),
+        todo_cnt = 0,
+        done_cnt = 0,
+        star_cnt = 0
+    for (let item of todo_items) {
+        if (item) {
+            let item_id = item.getAttribute("id")
+            let now_item = model.data.todo_items[item_id]
+            if (search_content === "" || now_item.content.search(search_content) != -1) {
+                if (now_item.done) {
+                    done_cnt++
+                } else if (!now_item.done) {
+                    todo_cnt++
+                }
+                if (now_item.star) {
+                    star_cnt++
+                }
+            }
+            if ((hash === "ALL" || (hash === "Done" && now_item.done) || (hash === "ToDo" && (!now_item.done)) || (hash === "Star" && now_item.star)) && (search_content === "" || now_item.content.search(search_content) != -1)) {
+                item.classList.remove("hide")
+                item.classList.remove("show")
+                setTimeout(function() {
+                    item.classList.add("show")
+                }, 10)
+                item.style.display = "flex"
+                item.querySelector(".todo_text").innerHTML = now_item.content
+                updateDone(item, now_item.done)
+                updateDateTime(item, now_item.datetime, now_item.isModify)
+            } else {
+                item.classList.remove("hide")
+                item.classList.remove("show")
+                item.classList.add("hide")
+                item.querySelector(".todo_text").innerHTML = now_item.content
+                updateDone(item, now_item.done)
+                updateDateTime(item, now_item.datetime, now_item.isModify)
+                setTimeout(function() {
+                    item.style.display = "none"
+                }, 10)
 
-
-$("#add_input").addEventListener("keydown", function(event) {
-    var e = event || window.event;
-    if (e && e.keyCode == 13) {
-        addToDo()
+            }
+        }
     }
-})
+    $("#done_cnt").innerHTML = done_cnt
+    $("#todo_cnt").innerHTML = todo_cnt
+    $("#star_cnt").innerHTML = star_cnt
+}
 
-$('.btn-triger').addEventListener("click", function() {
-    let float_btn_group = this.parentNode
-    if (float_btn_group.classList.contains("open")) {
-        float_btn_group.classList.remove("open")
-        this.querySelector(".fa-bars").style.display = ""
-        this.querySelector(".fa-reply-all").style.display = "none"
-        this.setAttribute("title", "Menu")
-
-    } else {
-        float_btn_group.classList.add("open")
-        this.querySelector(".fa-bars").style.display = "none"
-        this.querySelector(".fa-reply-all").style.display = ""
-        this.setAttribute("title", "Back")
-
-    }
-})
+function Search() {
+    let input_content = $("#search_input").value,
+        hash = window.location.hash.split("#")[1]
+    input_content = input_content.trim()
+    $("#search_content").value = input_content
+    $("#search_span").innerHTML = input_content
+    updateMySearch(hash)
+}

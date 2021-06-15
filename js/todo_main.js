@@ -462,6 +462,9 @@ function deleteToDo(event, now) {
     } else if (!model.data.todo_items[now_id].done) {
         $("#todo_cnt").innerHTML = (parseInt($("#todo_cnt").innerHTML) - 1)
     }
+    if (model.data.todo_items[now_id].star) {
+        $("#star_cnt").innerHTML = (parseInt($("#star_cnt").innerHTML) - 1)
+    }
     delete model.data.todo_items[now_id]
     model.flush()
     setItemStyle(now_item, "Delete", "")

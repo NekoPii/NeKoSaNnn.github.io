@@ -19,6 +19,10 @@
     src: url(../fonts/mvboli.ttf);
 }
 
+html {
+    font-size: 18px;
+}
+
 body {
     background: radial-gradient(200% 100% at bottom center, #ffffff, #6DD5FA, #6dd5ed, #2980B9);
     background: radial-gradient(220% 105% at top center, #2980B9 10%, #6dd5ed 40%, #6DD5FA 65%, #ffffff);
@@ -114,21 +118,21 @@ h1 {
     margin: 1rem 0;
 }
 
-#done_text {
+#Done_text {
     width: 33%;
     display: inline-flex;
     justify-content: center;
     align-content: center;
 }
 
-#todo_text {
+#Todo-text {
     width: 33%;
     display: inline-flex;
     justify-content: center;
     align-content: center;
 }
 
-#star_text {
+#Star_text {
     width: 33%;
     display: inline-flex;
     justify-content: center;
@@ -168,7 +172,7 @@ h1 {
 .todo_content {
     width: 76%;
     padding: 0 3px;
-    display: inline-flex;
+    height: 100%;
     flex-direction: column;
     justify-content: center;
 }
@@ -177,18 +181,18 @@ h1 {
     transform: translatex(2px);
 }
 
-.todo_text {
-    overflow: hidden;
+.todo_content .todo_text {
+    height: 100%;
+    display: block;
     text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 5;
-    -webkit-box-orient: vertical;
+    white-space: nowrap;
+    overflow: hidden;
     user-select: none;
     cursor: text;
     margin: 0.5rem 0;
 }
 
-.todo_datetime {
+.todo_content .todo_datetime {
     font-family: 'MV boli';
     font-size: 0.5rem;
     display: flex;
@@ -244,6 +248,15 @@ h1 {
     transition: 0.2s ease;
 }
 
+.Delete {
+    color: rgba(255, 118, 109, 0.6);
+    transition: 0.2s ease;
+}
+
+.Checked {
+    color: #04bce6;
+}
+
 #todo {
     position: relative;
     padding-top: 2rem;
@@ -252,7 +265,7 @@ h1 {
 }
 
 #todo_items {
-    max-height: 600px;
+    max-height: 900px;
     overflow-y: scroll;
     margin-bottom: 2rem;
     filter: drop-shadow(0px 30px 50px rgba(0, 0, 0, 0.3));
@@ -260,7 +273,8 @@ h1 {
 
 #todo_items .item {
     width: 99%;
-    min-height: 8vmin;
+    min-height: 4rem;
+    max-height: 8rem;
     padding: 3px 0;
     display: flex;
     margin-bottom: 1vw;

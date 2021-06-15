@@ -36,6 +36,7 @@ window.onload = function() {
 
     /*初始化搜索栏与添加栏状态切换*/
     if ($("#search_or_add").value === "search") {
+        $("#search_or_add").setAttribute("title", "Search")
         $("#search_input").style.display = "none"
         $("#search").style.display = "none"
         $("#add_input").style.display = ""
@@ -44,6 +45,7 @@ window.onload = function() {
         $("#search_text").classList.add("hide")
         $("#search_text").style.visibility = "hidden"
     } else if ($("#search_or_add").value === "add") {
+        $("#search_or_add").setAttribute("title", "Add Todo")
         $("#add_input").style.display = "none"
         $("#add").style.display = "none"
         $("#search_input").style.display = ""
@@ -136,7 +138,6 @@ window.onload = function() {
     })
 
     $("#delete_All").addEventListener("click", function() {
-
         deleteAll()
     })
     $("#done_All").addEventListener("click", function() {
@@ -190,6 +191,7 @@ function initMyToDo() {
         now_del_btn.classList.add("delete_btn")
         now_del_i.classList.add("far")
         now_del_i.classList.add("fa-trash-alt")
+        now_del_i.classList.add("Delete")
         now_del_btn.title = "Delete"
         now_del_btn.appendChild(now_del_i)
         now_del_btn.addEventListener("click", function() {
@@ -313,6 +315,7 @@ function addToDo() {
         now_del_btn.classList.add("delete_btn")
         now_del_i.classList.add("far")
         now_del_i.classList.add("fa-trash-alt")
+        now_del_i.classList.add("Delete")
         now_del_btn.title = "Delete"
         now_del_btn.appendChild(now_del_i)
         now_del_btn.addEventListener("click", function() {
@@ -554,6 +557,7 @@ function setItemStyle(now_item, type, hash) {
         now_check_i.classList.remove("fa-square")
         now_check_i.classList.add("fas")
         now_check_i.classList.add("fa-check-square")
+        now_check_i.classList.add("Checked")
     } else
     if (type === "ToDo") { //待完成样式
         if (hash === "Done") {
@@ -576,6 +580,7 @@ function setItemStyle(now_item, type, hash) {
         }
         now_check_i.classList.remove("fas")
         now_check_i.classList.remove("fa-check-square")
+        now_check_i.classList.remove("Checked")
         now_check_i.classList.add("far")
         now_check_i.classList.add("fa-square")
     } else if (type === "Delete") {
@@ -598,7 +603,7 @@ function deleteAll() {
         if (now_item_div.classList.contains("show")) {
             delete model.data.todo_items[key]
             model.flush()
-            setItemStyle($("#" + key), "Delete", hash)
+            setItemStyle(now_item_div, "Delete", hash)
             cnt++
         }
     }
@@ -772,6 +777,9 @@ function changeModel() {
     let now_i = $("#search_or_add").querySelector("i"),
         hash = window.location.hash.split("#")[1]
     if ($("#search_or_add").value === "search") { //切换到Search
+        $("#search_content").value = ""
+        $("#search_span").innerHTML = ""
+        $("#search_or_add").setAttribute("title", "Add Todo")
         $("#search_text").classList.remove("hide")
         $("#search_text").classList.add("show")
         $("#search_text").style.visibility = "visible"
@@ -785,6 +793,9 @@ function changeModel() {
         $("#search_input").style.display = ""
         $("#search").style.display = ""
     } else if ($("#search_or_add").value === "add") { //切换到Add
+        $("#search_content").value = ""
+        $("#search_span").innerHTML = ""
+        $("#search_or_add").setAttribute("title", "Search")
         $("#search_text").classList.remove("show")
         $("#search_text").classList.add("hide")
         $("#search_text").style.visibility = "hidden"
@@ -808,9 +819,9 @@ function updateMySearch(hash) {
         done_cnt = 0,
         star_cnt = 0
     for (let item of todo_items) {
-        if (item) {
-            let item_id = item.getAttribute("id")
-            let now_item = model.data.todo_items[item_id]
+        let item_id = item.getAttribute("id")
+        let now_item = model.data.todo_items[item_id]
+        if (now_item) {
             if (search_content === "" || now_item.content.search(search_content) != -1) {
                 if (now_item.done) {
                     done_cnt++
@@ -857,4 +868,23 @@ function Search() {
     $("#search_content").value = input_content
     $("#search_span").innerHTML = input_content
     updateMySearch(hash)
+    if (input_content === "") {
+        vt.success("Search All ~", {
+            title: undefined,
+            position: "top-right",
+            duration: 1500,
+            closable: true,
+            focusable: true,
+            callback: undefined
+        });
+    } else {
+        vt.success("Search for \"" + input_content + "\" ~", {
+            title: undefined,
+            position: "top-right",
+            duration: 1500,
+            closable: true,
+            focusable: true,
+            callback: undefined
+        });
+    }
 }

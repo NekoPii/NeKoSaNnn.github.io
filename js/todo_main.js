@@ -457,7 +457,7 @@ function deleteToDo(event, now) {
     vt.success("Delete ~", {
         title: undefined,
         position: "top-left",
-        duration: 150000,
+        duration: 1500,
         closable: true,
         focusable: true,
         callback: undefined
@@ -481,7 +481,7 @@ function starToDo(event, now) {
         vt.success("Star ⭐~", {
             title: undefined,
             position: "top-left",
-            duration: 150000,
+            duration: 1500,
             closable: true,
             focusable: true,
             callback: undefined
@@ -491,7 +491,7 @@ function starToDo(event, now) {
         vt.info("Cancel ~", {
             title: undefined,
             position: "top-left",
-            duration: 150000,
+            duration: 1500,
             closable: true,
             focusable: true,
             callback: undefined
@@ -536,7 +536,7 @@ function doneToDo(event, now) {
         vt.success("Done ✏ ~", {
             title: undefined,
             position: "top-left",
-            duration: 150000,
+            duration: 1500,
             closable: true,
             focusable: true,
             callback: undefined
@@ -547,7 +547,7 @@ function doneToDo(event, now) {
         vt.info("Todo ✏ ~", {
             title: undefined,
             position: "top-left",
-            duration: 150000,
+            duration: 1500,
             closable: true,
             focusable: true,
             callback: undefined

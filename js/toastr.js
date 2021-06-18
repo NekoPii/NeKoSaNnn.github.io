@@ -41,7 +41,7 @@
 
         .vt-col {
             flex: 1;
-            margin: 3rem 4rem;
+            margin: 1rem 1rem;
             display: flex;
             flex-direction: column;
             align-items: center;

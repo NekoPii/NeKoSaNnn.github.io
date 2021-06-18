@@ -1,7 +1,7 @@
 .btn-float {
-    width: 55px;
-    height: 55px;
-    line-height: 55px;
+    width: 4rem;
+    height: 4rem;
+    line-height: 4rem;
     display: inline-block;
     border: none;
     font-size: 1.5rem;
@@ -23,8 +23,8 @@
 .btn-float i {
     display: block;
     margin: auto;
-    font-size: 1.3rem;
-    line-height: 1.3rem;
+    font-size: 1.5rem;
+    line-height: 1.5rem;
 }
 
 .btn-float:active,
@@ -77,8 +77,8 @@
 
 .left-popbtn .float-btn-group {
     position: fixed;
-    left: 1.5rem;
-    bottom: 8rem;
+    left: 0.5rem;
+    bottom: 1rem;
     z-index: 900;
 }
 
@@ -94,8 +94,8 @@
 
 .right-popbtn .float-btn-group {
     position: fixed;
-    right: 1.5rem;
-    bottom: 8rem;
+    right: 0.5rem;
+    bottom: 1rem;
     z-index: 900;
 }
 
@@ -145,7 +145,7 @@
 }
 
 .left-popbtn .float-btn-group.open .btn-list .btn-float:nth-child(1) {
-    top: -18rem;
+    right: -18rem;
     -moz-transition: 0.1s 0.3s ease-out;
     -o-transition: 0.1s 0.3s ease-out;
     -webkit-transition: 0.1s 0.3s ease-out;
@@ -153,7 +153,7 @@
 }
 
 .left-popbtn .float-btn-group.open .btn-list .btn-float:nth-child(2) {
-    top: -13.5rem;
+    right: -13.5rem;
     -moz-transition: 0.1s 0.2s ease-out;
     -o-transition: 0.1s 0.2s ease-out;
     -webkit-transition: 0.1s 0.2s ease-out;
@@ -161,7 +161,7 @@
 }
 
 .left-popbtn .float-btn-group.open .btn-list .btn-float:nth-child(3) {
-    top: -9rem;
+    right: -9rem;
     -moz-transition: 0.1s 0.1s ease-out;
     -o-transition: 0.1s 0.1s ease-out;
     -webkit-transition: 0.1s 0.1s ease-out;
@@ -169,7 +169,7 @@
 }
 
 .left-popbtn .float-btn-group.open .btn-list .btn-float:nth-child(4) {
-    top: -4.5rem;
+    right: -4.5rem;
     -moz-transition: 0.1s 0s ease-out;
     -o-transition: 0.1s 0s ease-out;
     -webkit-transition: 0.1s 0s ease-out;

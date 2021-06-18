@@ -20,7 +20,7 @@
 }
 
 html {
-    font-size: 18px;
+    font-size: 30px;
 }
 
 body {
@@ -106,6 +106,7 @@ h1 {
     font-size: 3rem;
     margin-bottom: 2vh;
     font-weight: 900;
+    color: white;
 }
 
 .sum_text {
@@ -115,6 +116,7 @@ h1 {
     align-content: center;
     font-size: 1.3rem;
     font-weight: 600;
+    color: white;
     margin: 1rem 0;
 }
 
@@ -138,8 +140,6 @@ h1 {
     justify-content: center;
     align-content: center;
 }
-
-.cnt {}
 
 #search_text {
     display: flex;
@@ -261,7 +261,7 @@ h1 {
     position: relative;
     padding-top: 2rem;
     margin: auto;
-    width: 70vw;
+    width: 90%;
 }
 
 #todo_items {
@@ -274,7 +274,7 @@ h1 {
 #todo_items .item {
     width: 99%;
     min-height: 4rem;
-    max-height: 10rem;
+    max-height: 11rem;
     padding: 3px 0;
     display: flex;
     margin-bottom: 1vw;
@@ -352,31 +352,6 @@ h1 {
         opacity: 0;
     }
 }
-
-
-/*
-#todo_items .yellow {
-    background: #FFD568;
-    opacity: 1;
-}
-*/
-
-
-/*
-#todo_items .blue {
-    background: rgb(145, 227, 255);
-    box-shadow: 0px 0px 15px rgb(145 227 255 / 50%);
-    /*background: #17ead9;
-    background: -webkit-linear-gradient(45deg, #17ead9, #6078ea);
-    background: linear-gradient(45deg, #17ead9, #6078ea);*/
-
-
-/*opacity: 1;}
-
-#todo_items .pink {
-    background: #FF766D;
-    opacity: 1;
-}*/
 
 .hide {
     animation: fade-out 0.5s;

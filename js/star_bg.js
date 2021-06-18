@@ -1,4 +1,4 @@
-var stars_cnt = 400;
+var stars_cnt = 100;
 var stars = $("#stars");
 var r = 700; /*星星的看起来的距离,值越大越远,可自行调制到自己满意的样子*/
 for (var i = 0; i < stars_cnt; i++) {

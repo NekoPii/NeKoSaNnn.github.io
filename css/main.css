@@ -24,8 +24,8 @@ html {
 }
 
 body {
-    background: radial-gradient(200% 100% at bottom center, #ffffff, #6DD5FA, #6dd5ed, #2980B9);
-    background: radial-gradient(220% 105% at top center, #2980B9 10%, #6dd5ed 40%, #6DD5FA 65%, #ffffff);
+    background: radial-gradient(200% 100% at bottom center, #d3d3d3, #6DD5FA, #6dd5ed, #2980B9);
+    background: radial-gradient(220% 105% at top center, #2980B9 10%, #6dd5ed 40%, #6DD5FA 65%, #d3d3d3);
     background-attachment: fixed;
     overflow-x: hidden;
     width: 100%;
@@ -167,6 +167,7 @@ h1 {
     cursor: pointer;
     color: white;
     transition: 0.2s ease;
+    filter: drop-shadow(0px 30px 50px rgba(0, 0, 0, 0.3));
 }
 
 .todo_content {
@@ -194,7 +195,7 @@ h1 {
 
 .todo_content .todo_datetime {
     font-family: 'MV boli';
-    font-size: 0.5rem;
+    font-size: 0.8rem;
     display: flex;
     user-select: none;
     cursor: auto;
@@ -268,7 +269,6 @@ h1 {
     max-height: 900px;
     overflow-y: scroll;
     margin-bottom: 2rem;
-    filter: drop-shadow(0px 30px 50px rgba(0, 0, 0, 0.3));
 }
 
 #todo_items .item {

@@ -158,7 +158,7 @@ h1 {
 }
 
 .check_btn {
-    width: 8%;
+    width: 12%;
     font-size: 1.3rem;
     padding: 0 3px;
     display: inline-flex;
@@ -171,7 +171,7 @@ h1 {
 }
 
 .todo_content {
-    width: 76%;
+    width: 64%;
     padding: 0 3px;
     height: 100%;
     flex-direction: column;
@@ -203,7 +203,7 @@ h1 {
 }
 
 .star_btn {
-    width: 8%;
+    width: 12%;
     font-size: 1.3rem;
     display: inline-flex;
     justify-content: center;
@@ -213,7 +213,7 @@ h1 {
 }
 
 .delete_btn {
-    width: 8%;
+    width: 12%;
     font-size: 1.3rem;
     padding: 0 3px;
     display: inline-flex;
@@ -260,9 +260,8 @@ h1 {
 
 #todo {
     position: relative;
-    padding-top: 2rem;
     margin: auto;
-    width: 90%;
+    width: 95%;
 }
 
 #todo_items {

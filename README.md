@@ -2,13 +2,13 @@
 
 Native js implements Todos —— 1852345 毛靖鑫
 
-## Welcome to 【电脑端：[Neko Todo](http://mjx.ink)】 or 【移动端：[Neko Todo Mobile](http://todo.mjx.ink)】
+## Welcome to 【桌面端：[Neko Todo](http://mjx.ink)】 or 【移动端：[Neko Todo Mobile](http://todo.mjx.ink)】
 
 ---
 
 ### 项目地址
 
-#### 电脑端：https://github.com/NeKoSaNnn/NekoToDo
+#### 桌面端：https://github.com/NeKoSaNnn/NekoToDo
 
 #### 移动端：https://github.com/NeKoSaNnn/NeKoSaNnn.github.io
 

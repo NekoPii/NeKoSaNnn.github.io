@@ -1,6 +1,6 @@
 # NekoToDo
 
-Native js implements Todos —— 1852345 毛靖鑫
+Native js implements Todos
 
 ## Welcome to 【桌面端：[Neko Todo](https://todo.mjx.ink)】 or 【移动端：[Neko Todo Mobile](https://todomb.mjx.ink)】
 

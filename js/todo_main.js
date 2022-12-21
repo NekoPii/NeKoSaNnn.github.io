@@ -1,7 +1,7 @@
 window.onload = function() {
     vt.success("Welcome Back 🌸~", {
         title: undefined,
-        position: "top-left",
+        position: "top-right",
         duration: 1500,
         closable: true,
         focusable: true,
@@ -76,7 +76,7 @@ window.onload = function() {
         window.location.href = "#ALL"
         vt.success("Change To All ~", {
             title: undefined,
-            position: "top-left",
+            position: "top-right",
             duration: 1000,
             closable: true,
             focusable: true,
@@ -92,7 +92,7 @@ window.onload = function() {
         window.location.href = "#Done"
         vt.success("Change To Done ~", {
             title: undefined,
-            position: "top-left",
+            position: "top-right",
             duration: 1000,
             closable: true,
             focusable: true,
@@ -108,7 +108,7 @@ window.onload = function() {
         window.location.href = "#ToDo"
         vt.success("Change To ToDo ~", {
             title: undefined,
-            position: "top-left",
+            position: "top-right",
             duration: 1000,
             closable: true,
             focusable: true,
@@ -124,7 +124,7 @@ window.onload = function() {
         window.location.href = "#Star"
         vt.success("Change To Star ~", {
             title: undefined,
-            position: "top-left",
+            position: "top-right",
             duration: 1000,
             closable: true,
             focusable: true,
@@ -353,7 +353,7 @@ function addToDo() {
         $("#add_input").value = ""
         vt.success("Add Note ~", {
             title: undefined,
-            position: "top-left",
+            position: "top-right",
             duration: 1000,
             closable: true,
             focusable: true,
@@ -363,7 +363,7 @@ function addToDo() {
     } else {
         vt.error("Input Can't be Empty ~", {
             title: undefined,
-            position: "top-left",
+            position: "top-right",
             duration: 1000,
             closable: true,
             focusable: true,
@@ -456,7 +456,7 @@ function deleteToDo(event, now) {
     model.flush()
     vt.success("Delete ~", {
         title: undefined,
-        position: "top-left",
+        position: "top-right",
         duration: 1500,
         closable: true,
         focusable: true,
@@ -480,7 +480,7 @@ function starToDo(event, now) {
         $("#star_cnt").innerHTML = parseInt($("#star_cnt").innerHTML) + 1
         vt.success("Star ⭐~", {
             title: undefined,
-            position: "top-left",
+            position: "top-right",
             duration: 1500,
             closable: true,
             focusable: true,
@@ -490,7 +490,7 @@ function starToDo(event, now) {
         $("#star_cnt").innerHTML = parseInt($("#star_cnt").innerHTML) - 1
         vt.info("Cancel ~", {
             title: undefined,
-            position: "top-left",
+            position: "top-right",
             duration: 1500,
             closable: true,
             focusable: true,
@@ -498,7 +498,6 @@ function starToDo(event, now) {
         });
     }
     updateStar(now_item, hash, model.data.todo_items[now_id].star)
-
 }
 
 function updateStar(now_item, hash, isStar) { //更新Star样式表
@@ -535,7 +534,7 @@ function doneToDo(event, now) {
         $("#todo_cnt").innerHTML = (parseInt($("#todo_cnt").innerHTML) - 1)
         vt.success("Done ✏ ~", {
             title: undefined,
-            position: "top-left",
+            position: "top-right",
             duration: 1500,
             closable: true,
             focusable: true,
@@ -546,7 +545,7 @@ function doneToDo(event, now) {
         $("#todo_cnt").innerHTML = (parseInt($("#todo_cnt").innerHTML) + 1)
         vt.info("Todo ✏ ~", {
             title: undefined,
-            position: "top-left",
+            position: "top-right",
             duration: 1500,
             closable: true,
             focusable: true,
@@ -554,6 +553,27 @@ function doneToDo(event, now) {
         });
     }
     updateDone(now_item, model.data.todo_items[now_id].done)
+}
+
+function updateDone(now_item, isDone) {
+    let now_text = now_item.querySelector(".todo_text"),
+        hash = window.location.hash.split("#")[1]
+    if (isDone) {
+        let now_content = now_text.innerHTML,
+            now_s = $CRE("s")
+        now_s.innerHTML = now_content
+        now_text.innerHTML = ""
+        now_text.appendChild(now_s)
+        setItemStyle(now_item, "Done", hash)
+    } else {
+        let now_s = now_text.querySelector("s")
+        if (now_s) {
+            let now_content = now_s.innerHTML
+            now_text.removeChild(now_s)
+            now_text.innerHTML = now_content
+        }
+        setItemStyle(now_item, "ToDo", hash)
+    }
 }
 
 function editText(event, now) {
@@ -622,7 +642,7 @@ function deleteAll() {
     if (cnt == 0) {
         vt.info("Nothing Delete ~", {
             title: undefined,
-            position: "top-left",
+            position: "top-right",
             duration: 1500,
             closable: true,
             focusable: true,
@@ -631,7 +651,7 @@ function deleteAll() {
     } else {
         vt.success("Delete " + cnt + " item(s) ~", {
             title: undefined,
-            position: "top-left",
+            position: "top-right",
             duration: 1500,
             closable: true,
             focusable: true,
@@ -656,7 +676,7 @@ function doneAll() {
     if (cnt == 0) {
         vt.info("Nothing Done ~", {
             title: undefined,
-            position: "top-left",
+            position: "top-right",
             duration: 1500,
             closable: true,
             focusable: true,
@@ -665,7 +685,7 @@ function doneAll() {
     } else {
         vt.success("Done " + cnt + " item(s) ~", {
             title: undefined,
-            position: "top-left",
+            position: "top-right",
             duration: 1500,
             closable: true,
             focusable: true,
@@ -690,7 +710,7 @@ function notdoneAll() {
     if (cnt == 0) {
         vt.info("Nothing Not Done ~", {
             title: undefined,
-            position: "top-left",
+            position: "top-right",
             duration: 1500,
             closable: true,
             focusable: true,
@@ -699,7 +719,7 @@ function notdoneAll() {
     } else {
         vt.success("Not Done " + cnt + " item(s) ~", {
             title: undefined,
-            position: "top-left",
+            position: "top-right",
             duration: 1500,
             closable: true,
             focusable: true,
@@ -725,7 +745,7 @@ function clearDone() {
     if (cnt == 0) {
         vt.info("Nothing Clear ~", {
             title: undefined,
-            position: "top-left",
+            position: "top-right",
             duration: 1500,
             closable: true,
             focusable: true,
@@ -734,7 +754,7 @@ function clearDone() {
     } else {
         vt.success("Clear " + cnt + " Done ~", {
             title: undefined,
-            position: "top-left",
+            position: "top-right",
             duration: 1500,
             closable: true,
             focusable: true,
@@ -742,27 +762,6 @@ function clearDone() {
         });
     }
 
-}
-
-function updateDone(now_item, isDone) {
-    let now_text = now_item.querySelector(".todo_text"),
-        hash = window.location.hash.split("#")[1]
-    if (isDone) {
-        let now_content = now_text.innerHTML,
-            now_s = $CRE("s")
-        now_s.innerHTML = now_content
-        now_text.innerHTML = ""
-        now_text.appendChild(now_s)
-        setItemStyle(now_item, "Done", hash)
-    } else {
-        let now_s = now_text.querySelector("s")
-        if (now_s) {
-            let now_content = now_s.innerHTML
-            now_text.removeChild(now_s)
-            now_text.innerHTML = now_content
-        }
-        setItemStyle(now_item, "ToDo", hash)
-    }
 }
 
 function updateDateTime(now_item, datetime, isModify) {
@@ -883,7 +882,7 @@ function Search() {
     if (input_content === "") {
         vt.success("Search All ~", {
             title: undefined,
-            position: "top-left",
+            position: "top-right",
             duration: 1500,
             closable: true,
             focusable: true,
@@ -892,7 +891,7 @@ function Search() {
     } else {
         vt.success("Search for \"" + input_content + "\" ~", {
             title: undefined,
-            position: "top-left",
+            position: "top-right",
             duration: 1500,
             closable: true,
             focusable: true,

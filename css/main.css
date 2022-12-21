@@ -20,12 +20,12 @@
 }
 
 html {
-    font-size: 30px;
+    font-size: 18px;
 }
 
 body {
-    background: radial-gradient(200% 100% at bottom center, #d3d3d3, #6DD5FA, #6dd5ed, #2980B9);
-    background: radial-gradient(220% 105% at top center, #2980B9 10%, #6dd5ed 40%, #6DD5FA 65%, #d3d3d3);
+    background: radial-gradient(200% 100% at bottom center, #ffffff, #6DD5FA, #6dd5ed, #2980B9);
+    background: radial-gradient(220% 105% at top center, #2980B9 10%, #6dd5ed 40%, #6DD5FA 65%, #ffffff);
     background-attachment: fixed;
     overflow-x: hidden;
     width: 100%;
@@ -158,7 +158,7 @@ h1 {
 }
 
 .check_btn {
-    width: 11%;
+    width: 8%;
     font-size: 1.3rem;
     padding: 0 3px;
     display: inline-flex;
@@ -167,11 +167,10 @@ h1 {
     cursor: pointer;
     color: white;
     transition: 0.2s ease;
-    filter: drop-shadow(0px 30px 50px rgba(0, 0, 0, 0.3));
 }
 
 .todo_content {
-    width: 67%;
+    width: 76%;
     padding: 0 3px;
     height: 100%;
     flex-direction: column;
@@ -195,7 +194,7 @@ h1 {
 
 .todo_content .todo_datetime {
     font-family: 'MV boli';
-    font-size: 0.8rem;
+    font-size: 0.5rem;
     display: flex;
     user-select: none;
     cursor: auto;
@@ -203,7 +202,7 @@ h1 {
 }
 
 .star_btn {
-    width: 11%;
+    width: 8%;
     font-size: 1.3rem;
     display: inline-flex;
     justify-content: center;
@@ -213,7 +212,7 @@ h1 {
 }
 
 .delete_btn {
-    width: 11%;
+    width: 8%;
     font-size: 1.3rem;
     padding: 0 3px;
     display: inline-flex;
@@ -260,14 +259,16 @@ h1 {
 
 #todo {
     position: relative;
+    padding-top: 2rem;
     margin: auto;
-    width: 95%;
+    width: 70vw;
 }
 
 #todo_items {
     max-height: 900px;
     overflow-y: scroll;
     margin-bottom: 2rem;
+    filter: drop-shadow(0px 30px 50px rgba(0, 0, 0, 0.3));
 }
 
 #todo_items .item {

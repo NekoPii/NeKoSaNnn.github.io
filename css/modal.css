@@ -16,12 +16,12 @@
         background: linear-gradient(143deg, #17ead9, #6078ea) !important;
         backdrop-filter: blur(1rem);
         box-shadow: 0 0.5rem 2rem rgb(0 0 0 / 17%);
-        width: 80%;
+        width: 60%;
         max-width: 800px;
-        height: 80%;
-        max-height: 800px;
+        height: 65%;
+        max-height: 600px;
         margin: 0 auto;
-        margin-top: 30vh;
+        margin-top: 20vh;
         border-radius: 0.5rem;
         background-color: #fff;
         z-index: 10000;

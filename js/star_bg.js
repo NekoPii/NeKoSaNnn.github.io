@@ -1,6 +1,6 @@
 var stars_cnt = 100;
 var stars = $("#stars");
-var r = 700; /*星星的看起来的距离,值越大越远,可自行调制到自己满意的样子*/
+var r = 700; /*星星的距离 */
 for (var i = 0; i < stars_cnt; i++) {
     var new_star = $CRE("div")
     new_star.classList.add("star")
